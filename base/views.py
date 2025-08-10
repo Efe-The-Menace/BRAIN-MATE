@@ -1,35 +1,24 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Room
+from .forms import RoomForm
 
-
-rooms = [
-    {
-        'id': 1,
-        'name': "Let's Learn python",
-    },
-    {
-        'id': 2,
-        'name': "Future of Backend Development",
-    },
-    {
-        'id': 3,
-        'name': "Evolution of C++",
-    },
-    {
-        'id': 4,
-        'name': "Ai vs Dev",
-    }
-]
 
 
 def home(request):
+    rooms = Room.objects.all()
     context = {'rooms': rooms}
     return render(request, 'base/home.html', context)
 
-def room(request, id):
-    room = None
-    for i in rooms:
-        if i['id'] == id:
-            room = i
+def room(request, pk):
+    room = Room.objects.get(id=pk)
     context = {'room': room}
     return render(request, 'base/room.html', context)
+
+def createRoom(request):
+    form = RoomForm()
+    if request.method == 'POST':
+        room = RoomForm(request.POST)
+        if form.as_valid():
+            form.save()
+    context = {'form': form}
+    return render(request, 'base/room_form.html', context)
