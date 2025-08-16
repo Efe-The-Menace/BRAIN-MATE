@@ -1,26 +1,42 @@
-# Python cache
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
 
 # Virtual environment
-env/
 venv/
+env/
+ENV/
+.venv/
 
-# Environment variables / secrets
-*.env
-
-# Django stuff
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
 db.sqlite3
 media/
-staticfiles/
 
-# VS Code settings
+# VSCode / IDEs
 .vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-# Byte-compiled / logs
-*.log
-
-# OS files
+# System files
 .DS_Store
 Thumbs.db
+
+# Pytest / Coverage
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+.mypy_cache/
