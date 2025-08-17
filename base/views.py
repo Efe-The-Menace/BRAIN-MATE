@@ -43,6 +43,8 @@ def room(request, pk):
 
 @login_required(login_url='login')
 def createRoom(request):
+    status = 'create'
+    topics = Topic.objects.all()
     form = RoomForm()
     if request.method == 'POST':
         form = RoomForm(request.POST)
@@ -51,11 +53,12 @@ def createRoom(request):
             room.host = request.user
             room.save()
             return redirect('home')
-    context = {'form': form}
+    context = {'form': form, 'status': status, 'topics': topics}
     return render(request, 'base/room_form.html', context)
 
 @login_required(login_url='login')
 def updateRoom(request, pk):
+    topics = Topic.objects.all()
     room = Room.objects.get(id=pk)
     if room.host != request.user:
         return HttpResponse("You can't perform this action")
@@ -64,7 +67,7 @@ def updateRoom(request, pk):
         form = RoomForm(request.POST, instance=room)
         form.save()
         return redirect('home')
-    context = {'form': form}
+    context = {'form': form, 'topics': topics}
     return render(request, 'base/room_form.html', context)
 
 @login_required(login_url='login')
