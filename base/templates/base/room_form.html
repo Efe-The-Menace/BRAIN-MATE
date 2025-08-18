@@ -27,7 +27,7 @@
             
             <div class="form__group">
               <label for="room_topic">Room topic</label>
-              <input required type="text" name="topic" list="topic-list">
+              <input required type="text" value="{{room.topic.name}}" placeholder="Chose from existing or add new topic" name="topic" list="topic-list">
               <datalist id="topic-list">
                 <select id="room-topic">
                   {% for topic in topics %}
