@@ -22,7 +22,13 @@
                     <form class="form" method="POST" action="">
                         {% csrf_token %}
                         <div class="form__group">
-                            <p>Are you sure you want to delete your room "{{obj}}"?</p>
+                            <p>Are you sure you want to delete your 
+                                {% if page == 'message' %}
+                                message
+                                {% else %}
+                                room
+                                {% endif %}
+                                "{{obj}}"?</p>
                         </div>
 
                         <div class="for__group">

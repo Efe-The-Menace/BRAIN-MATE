@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from .models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserRegisterform, UserForm
@@ -15,14 +15,14 @@ def loginUser(request):
         return redirect('/')
 
     if request.method =="POST":
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
         except:
             messages.error(request, 'User does not exist')
-
-        user = authenticate(request, username=username, password=password)
+   
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             login(request, user)
@@ -67,7 +67,7 @@ def updateUser(request):
         user = request.user
         form = UserForm(instance=user)
         if request.method == 'POST':
-            form = UserForm(request.POST, instance=user)
+            form = UserForm(request.POST, request.FILES, instance=user)
             form.save()
             return redirect('profile', pk=user.id)
         return render(request, 'users/update-user.html', {'form': form})

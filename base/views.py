@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Room, Topic, Message
-from .forms import RoomForm
-from django.db.models import Q
-from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.db.models import Q
+from .models import Room, Topic, Message
+from .forms import RoomForm
+from users.models import User
 
 
 def home(request): 
@@ -23,7 +23,13 @@ def home(request):
     all_topics = Topic.objects.all()
 
     room_count  = rooms.count()
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages, 'all_topics': all_topics}
+    context = {
+        'rooms': rooms,
+        'topics': topics,
+        'room_count': room_count,
+        'room_messages': room_messages,
+        'all_topics': all_topics
+        }
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
@@ -95,6 +101,7 @@ def deleteRoom(request, pk):
 
 @login_required(login_url='/')
 def deleteMessage(request, pk):
+    page = 'message'
     message = Message.objects.get(id=pk)
     if request.user != message.user:
         return HttpResponse("Hey, You can't do that!")
@@ -103,7 +110,7 @@ def deleteMessage(request, pk):
         message.delete()
         messages.success(request, "Message deleted!")
         return redirect('room', room)
-    return render(request, 'base/delete.html', {'obj': message})
+    return render(request, 'base/delete.html', {'obj': message, 'page': page})
 
 
 def topicsPage(request):
@@ -111,7 +118,7 @@ def topicsPage(request):
     topics = Topic.objects.filter(
         name__icontains=q
     )
-    return render(request, 'base/topics.html', {'topics': topics})\
+    return render(request, 'base/topics.html', {'topics': topics})
     
 
 def activityPage(request):

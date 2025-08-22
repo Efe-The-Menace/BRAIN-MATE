@@ -11,10 +11,8 @@ build/
 .eggs/
 
 # Virtual environment
-venv/
 env/
-ENV/
-.venv/
+
 
 # Django
 *.log
@@ -26,9 +24,6 @@ media/
 
 # VSCode / IDEs
 .vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
 
 # System files
 .DS_Store

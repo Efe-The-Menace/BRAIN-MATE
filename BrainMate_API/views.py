@@ -7,12 +7,11 @@ from .serializers import RoomSerializer
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
-        'GET /api',
+        'GET /api'
         'GET /api/rooms',
-        'GET/api/rooms/:id'
+        'GET /apis/rooms/:id'
     ]
     return Response(routes)
-
 
 @api_view(['GET'])
 def getRooms(request):
@@ -23,6 +22,6 @@ def getRooms(request):
 
 @api_view(['GET'])
 def getRoom(request, pk):
-    room = Room.objects.get(id=pk)
-    serializer = RoomSerializer(room, many=False)
+    rooms = Room.objects.get(id=pk)
+    serializer = RoomSerializer(rooms)
     return Response(serializer.data)
